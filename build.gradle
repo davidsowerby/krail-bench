@@ -12,6 +12,10 @@
 apply from: 'http://plugins.jasoft.fi/vaadin.plugin'
 apply plugin: 'idea'
 
+project.ext.vaadinVersion = '7.3.4'
+project.ext.guiceVersion = '3.0'
+project.ext.shiroVersion = '1.2.1'
+project.ext.testbenchVersion = '4.0.0.beta1'
 
 vaadin {
 
@@ -21,7 +25,7 @@ vaadin {
 
 dependencies {
     compile 'org.assertj:assertj-core:1.5.0'
-    compile project(":V7")
+    //  compile project(":V7")
     compile 'com.vaadin:vaadin-testbench:' + testbenchVersion
 
 }
