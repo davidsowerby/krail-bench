@@ -1,14 +1,13 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="Gradle : krail-bench : krail-bench.war (exploded)">
-    <output-path>$PROJECT_DIR$/build/classes/artifacts/krail-bench/exploded/krail-bench.war</output-path>
+  <artifact type="exploded-war" name="Gradle : krail-bench : krail-bench-0.7.war (exploded)">
+    <output-path>$PROJECT_DIR$/build/classes/artifacts/krail-bench/exploded/krail-bench-0.7.war</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="krail-bench/web/Web Gradle : krail-bench.war" />
+      <element id="javaee-facet-resources" facet="krail-bench/web/Web Gradle : krail-bench-0.7.war" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="krail-bench" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Gradle: assertj-core-1.5.0" />
           <element id="library" level="project" name="Gradle: vaadin-testbench-4.0.0.beta1" />
           <element id="library" level="project" name="Gradle: vaadin-testbench-core-4.0.0.beta1" />
           <element id="library" level="project" name="Gradle: vaadin-testbench-api-7.3.0.beta1" />
@@ -65,10 +64,15 @@
           <element id="library" level="project" name="Gradle: jetty-http-8.1.15.v20140411" />
           <element id="library" level="project" name="Gradle: cglib-nodep-2.2.2" />
           <element id="library" level="project" name="Gradle: httpcore-4.3.2" />
+          <element id="library" level="project" name="Gradle: V7-0.6" />
+          <element id="library" level="project" name="Gradle: slf4j-api-1.6.6" />
+          <element id="library" level="project" name="Gradle: slf4j-log4j12-1.6.6" />
+          <element id="library" level="project" name="Gradle: log4j-1.2.17" />
+          <element id="library" level="project" name="Gradle: assertj-core-1.5.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/build/classes/artifacts/krail-bench/exploded/krail-bench.war/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/build/classes/artifacts/krail-bench/exploded/krail-bench-0.7.war/META-INF/MANIFEST.MF" />
       </element>
     </root>
   </artifact>

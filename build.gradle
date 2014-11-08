@@ -17,6 +17,13 @@ project.ext.guiceVersion = '3.0'
 project.ext.shiroVersion = '1.2.1'
 project.ext.testbenchVersion = '4.0.0.beta1'
 
+
+version = '0.7'
+
+jar {
+    libsDirName = "/home/david/jars"
+}
+
 vaadin {
 
     version vaadinVersion
@@ -24,8 +31,18 @@ vaadin {
 }
 
 dependencies {
+
+    //Krail
+    compile files("/home/david/jars/V7-0.6.jar")
+
+    //Logging
+    compile 'org.slf4j:slf4j-api:1.6.6'
+    compile 'org.slf4j:slf4j-log4j12:1.6.6'
+
+    // Test
     compile 'org.assertj:assertj-core:1.5.0'
-    //  compile project(":V7")
+
+    //Testbench
     compile 'com.vaadin:vaadin-testbench:' + testbenchVersion
 
 }
