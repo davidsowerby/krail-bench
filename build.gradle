@@ -9,7 +9,8 @@
  */
 
 //Build file for krail-bench
-apply from: 'http://plugins.jasoft.fi/vaadin.plugin'
+apply plugin: 'java'
+apply plugin: 'maven'
 apply plugin: 'idea'
 
 project.ext.vaadinVersion = '7.3.4'
@@ -17,23 +18,68 @@ project.ext.guiceVersion = '3.0'
 project.ext.shiroVersion = '1.2.1'
 project.ext.testbenchVersion = '4.0.0.beta1'
 
+repositories {
 
-version = '0.7'
+    maven {
+        url 'http://maven.vaadin.com/vaadin-addons'
+    }
+    jcenter()
+}
+
+version = '0.7.0'
+
+project.ext.exportDir = System.getProperty("user.home") + "/temp/jars/" + project.name
 
 jar {
-    libsDirName = "/home/david/jars"
+    libsDirName = exportDir
+    println("jar exported to:  " + exportDir)
 }
 
-vaadin {
-
-    version vaadinVersion
-    serverPort 8001
+task writeNewPom << {
+    pom {
+        groupId = "uk.q3c.krail"
+        project {
+            inceptionYear '2014'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+        }
+    }.writeTo(exportDir + "/" + project.name + "-" + version + ".pom")
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task publish(dependsOn: ['sourcesJar', 'javadocJar', 'jar', 'writeNewPom']) {
+
+
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+javadoc {
+    failOnError = false
+}
 dependencies {
 
     //Krail
-    compile files("/home/david/jars/V7-0.6.jar")
+    compile 'uk.q3c.krail:krail:0.7+'
 
     //Logging
     compile 'org.slf4j:slf4j-api:1.6.6'
@@ -46,22 +92,7 @@ dependencies {
     compile 'com.vaadin:vaadin-testbench:' + testbenchVersion
 
 }
-//This should no longer be necessary as it is now in the src/main folder
-//see http://stackoverflow.com/questions/5144325/gradle-test-dependency
-//the testJar, configurations and artifacts closure enable tests in other projects to use these tests
-//see the demo project or testApp project for examples
-task testJar(type: Jar, dependsOn: testClasses) {
-    baseName = "test-${project.archivesBaseName}"
-    from sourceSets.test.output
-}
 
-configurations {
-    tests
-}
-
-artifacts {
-    tests testJar
-}
 
 idea {
     module {
