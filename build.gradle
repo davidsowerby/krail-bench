@@ -13,10 +13,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'idea'
 
-project.ext.vaadinVersion = '7.3.4'
-project.ext.guiceVersion = '3.0'
-project.ext.shiroVersion = '1.2.1'
-project.ext.testbenchVersion = '4.0.0.beta1'
+
 
 repositories {
 
@@ -26,7 +23,7 @@ repositories {
     jcenter()
 }
 
-version = '0.7.0'
+version = '0.7.1'
 
 project.ext.exportDir = System.getProperty("user.home") + "/temp/jars/" + project.name
 
@@ -79,7 +76,7 @@ javadoc {
 dependencies {
 
     //Krail
-    compile 'uk.q3c.krail:krail:0.7+'
+    compile 'uk.q3c.krail:krail:0.7.2+'
 
     //Logging
     compile 'org.slf4j:slf4j-api:1.6.6'
@@ -89,7 +86,7 @@ dependencies {
     compile 'org.assertj:assertj-core:1.5.0'
 
     //Testbench
-    compile 'com.vaadin:vaadin-testbench:' + testbenchVersion
+    compile 'com.vaadin:vaadin-testbench:4.0.1'
 
 }
 

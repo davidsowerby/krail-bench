@@ -173,7 +173,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     }
 
     protected void closeNotification() {
-        notification().closeNotification();
+        notification().close();
     }
 
     protected NotificationElement notification() {

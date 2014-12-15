@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: uk.q3c.krail:krail:0.7.2-draft">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/gradle/caches/modules-2/files-2.1/uk.q3c.krail/krail/0.7.2-draft/780e85b91184b0ec0fe9f83cf6877c02c616e717/krail-0.7.2-draft.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/gradle/caches/modules-2/files-2.1/uk.q3c.krail/krail/0.7.2-draft/f6a07d4ba9a413c19473a7bd0497d6aced5588fa/krail-0.7.2-draft-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/gradle/caches/modules-2/files-2.1/uk.q3c.krail/krail/0.7.2-draft/98a9306aba4b900e222e1c2076aff2ad72f89a22/krail-0.7.2-draft-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

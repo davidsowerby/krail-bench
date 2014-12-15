@@ -17,7 +17,6 @@ import com.vaadin.testbench.elements.AbstractComponentElement;
 import com.vaadin.testbench.elements.MenuBarElement;
 import com.vaadin.testbench.elementsbase.ServerClass;
 import com.vaadin.testbench.exceptions.LowVaadinVersionException;
-import com.vaadin.testbench.exceptions.MenuItemNotAvailableException;
 import com.vaadin.testbench.util.VersionUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
@@ -90,7 +89,7 @@ public class HackedMenuBarElement extends AbstractComponentElement {
 
 
         if (selectedElement == null) {
-            throw new MenuItemNotAvailableException(item);
+            throw new RuntimeException(item);
         }
 
         return selectedElement;
