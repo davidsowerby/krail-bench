@@ -13,11 +13,12 @@
 
 package uk.q3c.krail.testbench.page.object;
 
-import com.google.common.base.Optional;
 import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.ui.Label;
 import uk.q3c.krail.core.view.component.DefaultMessageBar;
 import uk.q3c.krail.testbench.KrailTestBenchTestCase;
+
+import java.util.Optional;
 
 /**
  * Created by david on 03/10/14.
@@ -43,6 +44,6 @@ public class MessageBarPageObject extends PageObject {
     }
 
     public LabelElement label() {
-        return element(LabelElement.class, Optional.absent(), DefaultMessageBar.class, Label.class);
+        return element(LabelElement.class, Optional.empty(), DefaultMessageBar.class, Label.class);
     }
 }

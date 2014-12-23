@@ -13,7 +13,6 @@
 
 package uk.q3c.krail.testbench.page.object;
 
-import com.google.common.base.Optional;
 import com.google.common.primitives.Ints;
 import com.vaadin.testbench.By;
 import com.vaadin.testbench.elements.TreeElement;
@@ -30,7 +29,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by david on 04/10/14.
  */
 public class NavTreePageObject extends PageObject {
-    private String id = ID.getIdc(Optional.absent(), DefaultUserNavigationTree.class);
+    private String id = ID.getIdc(Optional.empty(), DefaultUserNavigationTree.class);
 
     public NavTreePageObject(KrailTestBenchTestCase parentCase) {
         super(parentCase);
@@ -66,7 +65,7 @@ public class NavTreePageObject extends PageObject {
     }
 
     public void select(String path) {
-        List<Integer> index = treeItemIndex(path, Optional.absent(), DefaultUserNavigationTree.class);
+        List<Integer> index = treeItemIndex(path, Optional.empty(), DefaultUserNavigationTree.class);
         int[] indexArray = Ints.toArray(index);
         select(indexArray);
     }
@@ -103,7 +102,7 @@ public class NavTreePageObject extends PageObject {
     }
 
     private TreeElement navTree() {
-        return element(TreeElement.class, Optional.absent(), DefaultUserNavigationTree.class);
+        return element(TreeElement.class, Optional.empty(), DefaultUserNavigationTree.class);
     }
 
     private TreeNodeInfo getChildElement(WebElement parentElement, String segment) {

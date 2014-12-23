@@ -23,7 +23,7 @@ repositories {
     jcenter()
 }
 
-version = '0.7.1'
+version = '0.7.2'
 
 project.ext.exportDir = System.getProperty("user.home") + "/temp/jars/" + project.name
 
@@ -76,7 +76,7 @@ javadoc {
 dependencies {
 
     //Krail
-    compile 'uk.q3c.krail:krail:0.7.2+'
+    compile 'uk.q3c.krail:krail:0.7.4-draft'
 
     //Logging
     compile 'org.slf4j:slf4j-api:1.6.6'
@@ -85,7 +85,7 @@ dependencies {
     // Test
     compile 'org.assertj:assertj-core:1.5.0'
 
-    //Testbench
+//    //Testbench
     compile 'com.vaadin:vaadin-testbench:4.0.1'
 
 }

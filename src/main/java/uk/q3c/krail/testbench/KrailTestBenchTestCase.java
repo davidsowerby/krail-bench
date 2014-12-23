@@ -12,7 +12,6 @@
  */
 package uk.q3c.krail.testbench;
 
-import com.google.common.base.Optional;
 import com.vaadin.testbench.TestBench;
 import com.vaadin.testbench.TestBenchTestCase;
 import com.vaadin.testbench.elements.NotificationElement;
@@ -33,6 +32,7 @@ import uk.q3c.util.ID;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -13,13 +13,14 @@
 
 package uk.q3c.krail.testbench.page.object;
 
-import com.google.common.base.Optional;
 import com.vaadin.testbench.elements.ButtonElement;
 import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import uk.q3c.krail.core.view.component.DefaultUserStatusPanel;
 import uk.q3c.krail.testbench.KrailTestBenchTestCase;
+
+import java.util.Optional;
 
 /**
  * Created by david on 03/10/14.
@@ -48,7 +49,7 @@ public class LoginStatusPageObject extends PageObject {
     }
 
     public ButtonElement loginButton() {
-        return element(ButtonElement.class, Optional.absent(), DefaultUserStatusPanel.class, Button.class);
+        return element(ButtonElement.class, Optional.empty(), DefaultUserStatusPanel.class, Button.class);
     }
 
 
@@ -64,6 +65,6 @@ public class LoginStatusPageObject extends PageObject {
     }
 
     public LabelElement usernameLabel() {
-        return element(LabelElement.class, Optional.absent(), DefaultUserStatusPanel.class, Label.class);
+        return element(LabelElement.class, Optional.empty(), DefaultUserStatusPanel.class, Label.class);
     }
 }

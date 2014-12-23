@@ -13,12 +13,13 @@
 
 package uk.q3c.krail.testbench.page.object;
 
-import com.google.common.base.Optional;
 import com.vaadin.testbench.elements.AbstractComponentElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.q3c.krail.testbench.KrailTestBenchTestCase;
 import uk.q3c.util.ID;
+
+import java.util.Optional;
 
 /**
  * Created by david on 03/10/14.

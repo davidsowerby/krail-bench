@@ -13,12 +13,13 @@
 
 package uk.q3c.krail.testbench.page.object;
 
-import com.google.common.base.Optional;
 import com.vaadin.testbench.elements.ButtonElement;
 import uk.q3c.krail.core.view.component.DefaultBreadcrumb;
 import uk.q3c.krail.core.view.component.NavigationButton;
 import uk.q3c.krail.testbench.KrailTestBenchTestCase;
 import uk.q3c.krail.testbench.page.element.DefaultBreadcrumbElement;
+
+import java.util.Optional;
 
 /**
  * Created by david on 04/10/14.
@@ -39,6 +40,6 @@ public class BreadcrumbPageObject extends PageObject {
     }
 
     public DefaultBreadcrumbElement breadcrumb() {
-        return element(DefaultBreadcrumbElement.class, Optional.absent(), DefaultBreadcrumb.class);
+        return element(DefaultBreadcrumbElement.class, Optional.empty(), DefaultBreadcrumb.class);
     }
 }

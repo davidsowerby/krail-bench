@@ -13,7 +13,6 @@
 
 package uk.q3c.krail.testbench.page.object;
 
-import com.google.common.base.Optional;
 import com.vaadin.testbench.By;
 import com.vaadin.testbench.elements.MenuBarElement;
 import org.openqa.selenium.WebElement;
@@ -21,6 +20,8 @@ import uk.q3c.krail.core.view.component.DefaultUserNavigationMenu;
 import uk.q3c.krail.testbench.KrailTestBenchTestCase;
 import uk.q3c.krail.testbench.page.element.HackedMenuBarElement;
 import uk.q3c.util.ID;
+
+import java.util.Optional;
 
 /**
  * Created by david on 04/10/14.
@@ -50,7 +51,7 @@ public class NavMenuPageObject extends PageObject {
      */
     public String item(int index) {
         ElementPath elementPath = new ElementPath(parentCase.getAppContext());
-        ElementPath id = elementPath.id(ID.getIdc(Optional.absent(), DefaultUserNavigationMenu.class));
+        ElementPath id = elementPath.id(ID.getIdc(Optional.empty(), DefaultUserNavigationMenu.class));
         String ids = id.get() + "#item" + index;
         WebElement element = parentCase.getDriver()
                                        .findElement(By.vaadin(ids));

@@ -13,7 +13,6 @@
 
 package uk.q3c.krail.testbench.page.object;
 
-import com.google.common.base.Optional;
 import com.vaadin.testbench.elements.ButtonElement;
 import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.testbench.elements.PasswordFieldElement;
@@ -24,6 +23,8 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import uk.q3c.krail.core.view.DefaultLoginView;
 import uk.q3c.krail.testbench.KrailTestBenchTestCase;
+
+import java.util.Optional;
 
 
 /**
@@ -83,7 +84,7 @@ public class LoginFormPageObject extends PageObject {
     }
 
     public ButtonElement submitButton() {
-        return element(ButtonElement.class, Optional.absent(), DefaultLoginView.class, Button.class);
+        return element(ButtonElement.class, Optional.empty(), DefaultLoginView.class, Button.class);
     }
 
     public String message() {

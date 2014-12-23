@@ -13,7 +13,6 @@
 
 package uk.q3c.krail.testbench.page.object;
 
-import com.google.common.base.Optional;
 import com.vaadin.testbench.elements.ButtonElement;
 import com.vaadin.testbench.elements.HorizontalLayoutElement;
 import uk.q3c.krail.core.view.component.DefaultSubPagePanel;
@@ -22,6 +21,7 @@ import uk.q3c.krail.testbench.KrailTestBenchTestCase;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by david on 04/10/14.
@@ -46,6 +46,6 @@ public class SubPagePanelPageObject extends PageObject {
     }
 
     public HorizontalLayoutElement subPagePanel() {
-        return element(HorizontalLayoutElement.class, Optional.absent(), DefaultSubPagePanel.class);
+        return element(HorizontalLayoutElement.class, Optional.empty(), DefaultSubPagePanel.class);
     }
 }

@@ -13,7 +13,6 @@
 
 package uk.q3c.krail.testbench.page.object;
 
-import com.google.common.base.Optional;
 import com.vaadin.testbench.elements.ComboBoxElement;
 import com.vaadin.ui.ComboBox;
 import uk.q3c.krail.core.view.component.DefaultLocaleSelector;
@@ -22,6 +21,7 @@ import uk.q3c.krail.testbench.KrailTestBenchTestCase;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * Created by David Sowerby on 19/10/14.
@@ -44,7 +44,7 @@ public class LocaleSelectorPageObject extends PageObject {
     }
 
     public ComboBoxElement combo() {
-        return element(ComboBoxElement.class, Optional.absent(), DefaultLocaleSelector.class, ComboBox.class);
+        return element(ComboBoxElement.class, Optional.empty(), DefaultLocaleSelector.class, ComboBox.class);
     }
 
     public String getValue() {
