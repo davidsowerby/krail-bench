@@ -13,7 +13,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'idea'
 
-version = '0.7.3'
+version = '0.7.4'
 
 
 
@@ -39,7 +39,7 @@ uploadArchives {
             pom {
                 groupId = "uk.q3c.krail"
                 project {
-                    inceptionYear '2014'
+                    inceptionYear '2015'
                     licenses {
                         license {
                             name 'The Apache Software License, Version 2.0'
@@ -80,7 +80,7 @@ javadoc {
 dependencies {
 
     //Krail
-    compile 'uk.q3c.krail:krail:0.7.6'
+    compile 'uk.q3c.krail:krail:0.7.7'
 
     // Test
     compile 'org.assertj:assertj-core:1.5.0'
