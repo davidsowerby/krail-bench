@@ -13,7 +13,6 @@ description = 'Some common Vaadin Testbench classes for use with Krail '
 dependencies {
 
     //Krail
-//    project(':krail')
     compile 'org.assertj:assertj-core:' + assertjVersion
     //Testbench
     compile 'com.vaadin:vaadin-testbench:4.0.1'
