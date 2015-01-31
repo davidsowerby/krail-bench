@@ -1,5 +1,4 @@
-krail-bench
-===========
+#krail-bench
 
 Vaadin Testbench extensions to use with [Krail](https://github.com/davidsowerby/krail)
 
