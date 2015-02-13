@@ -1,1 +1,1 @@
-This version removes the Gradle project files from Git
+Added gitattributes file
