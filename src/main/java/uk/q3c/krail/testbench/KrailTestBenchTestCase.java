@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.slf4j.Logger;
@@ -51,7 +52,6 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     public void baseSetup() throws Exception {
         System.out.println("setting up base test bench case");
 
-
         setDriver(TestBench.createDriver(createFirefoxDriver()));
         getDriver().manage()
                    .window()
@@ -71,6 +71,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     }
 
     protected WebDriver createFirefoxDriver() {
+        System.out.println("Creating Firefox driver");
         FirefoxProfile profile = createFirefoxProfile(firefoxLocale);
         return new FirefoxDriver(profile);
     }
@@ -84,14 +85,23 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         return profile;
     }
 
+    protected WebDriver createChromeDriver() {
+        System.out.println("Creating Chrome driver");
+        return new ChromeDriver();
+    }
+
     @After
     public void baseTearDown() {
         System.out.println("closing all drivers");
         for (WebDriver webDriver : drivers) {
+            System.out.println("closing web driver: " + webDriver.getTitle() + "");
             webDriver.close();
-            System.out.println(webDriver.getTitle() + " closed");
+
         }
-        driver.close();//in case it was set directly and not through addDriver
+        //        if (!drivers.contains(driver)) {
+        //            driver.close();//in case it was set directly and not through addDriver
+        //        }
+
         drivers.clear();
     }
 
