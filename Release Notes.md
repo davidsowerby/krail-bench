@@ -1,24 +1,25 @@
-### Release Notes for krail-bench 0.7.10
+### Release Notes for krail-bench 0.7.11
 
-Added gitattributes file
+Chrome driver added, though not yet in use
 
 #### Change log
 
+-   [3](https://github.com/davidsowerby/krail-bench/issues/3): Add chrome driver
 
 
 #### Dependency changes
 
-   compile dependency version changed to: krail:0.8.0
+   compile dependency version changed to: krail:0.8.1
 
 #### Detail
 
-*Update version information*
+*Updated version information*
 
 
 ---
-*gitattributes added*
+*Fix [3](https://github.com/davidsowerby/krail-bench/issues/3) Chrome driver added*
 
-To overcome Linux/Windows line ending issues
+Not yet in use but method is in KrailTestBenchTestCase
 
 
 ---
