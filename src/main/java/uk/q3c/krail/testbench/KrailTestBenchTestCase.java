@@ -13,6 +13,7 @@
 package uk.q3c.krail.testbench;
 
 import com.vaadin.testbench.TestBench;
+import com.vaadin.testbench.TestBenchDriverProxy;
 import com.vaadin.testbench.TestBenchTestCase;
 import com.vaadin.testbench.elements.NotificationElement;
 import com.vaadin.testbench.elementsbase.AbstractElement;
@@ -67,7 +68,11 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
 
     protected void addDriver(WebDriver driver) {
         System.out.println("adding driver " + drivers.size());
-        drivers.add(driver);
+        if (!(driver instanceof TestBenchDriverProxy)) {
+            drivers.add(TestBench.createDriver(driver));
+        } else {
+            drivers.add(driver);
+        }
     }
 
     protected WebDriver createFirefoxDriver() {
@@ -228,6 +233,10 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         } catch (Exception e) {
             throw new RuntimeException("Driver index of " + index + " is invalid");
         }
+    }
+
+    protected WebDriver driver(int index) {
+        return drivers.get(index);
     }
 
 

@@ -1,14 +1,12 @@
 /*
- * Copyright (c) 2014 David Sowerby
+ * Copyright (c) 2015. David Sowerby
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for
- * the specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 
 package uk.q3c.krail.testbench;
@@ -49,28 +47,28 @@ public class BrowserSettingTest extends KrailTestBenchTestCase {
     public void localeSetting_Germany() throws IOException {
         //given
         firefoxLocale = Locale.GERMANY;
-        setDriver(createFirefoxDriver());
-        driver.manage()
+        addDriver(createFirefoxDriver());
+        driver(0).manage()
               .window()
               .setSize(new Dimension(1024, 768));
         //when
-        driver.get("https://www.google.co.uk/");
+        driver(0).get("https://www.google.co.uk/");
         //then
-        testBench(driver).compareScreen(ImageFileUtil.getReferenceScreenshotFile("germany.png"));
+        testBench(driver(0)).compareScreen(ImageFileUtil.getReferenceScreenshotFile("germany.png"));
     }
 
     @Test
     public void localeSetting_Italy() throws IOException {
         //given
         firefoxLocale = Locale.ITALY;
-        setDriver(createFirefoxDriver());
-        driver.manage()
+        addDriver(createFirefoxDriver());
+        driver(0).manage()
               .window()
               .setSize(new Dimension(1024, 768));
         //when
-        driver.get("https://www.google.co.uk/");
+        driver(0).get("https://www.google.co.uk/");
         //then
-        testBench(driver).compareScreen(ImageFileUtil.getReferenceScreenshotFile("italy.png"));
+        testBench(driver(0)).compareScreen(ImageFileUtil.getReferenceScreenshotFile("italy.png"));
     }
 
 
