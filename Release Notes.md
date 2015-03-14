@@ -1,15 +1,15 @@
-### Release Notes for krail-bench 0.7.11
+### Release Notes for krail-bench 0.7.12
 
-Chrome driver added, though not yet in use
+Minor change to support Krail move to Event Bus
 
 #### Change log
 
--   [3](https://github.com/davidsowerby/krail-bench/issues/3): Add chrome driver
+-   [6](https://github.com/davidsowerby/krail-bench/issues/6): Test not closing browsers
 
 
 #### Dependency changes
 
-   compile dependency version changed to: krail:0.8.1
+   compile dependency version changed to: krail:0.9.0
 
 #### Detail
 
@@ -17,9 +17,19 @@ Chrome driver added, though not yet in use
 
 
 ---
-*Fix [3](https://github.com/davidsowerby/krail-bench/issues/3) Chrome driver added*
+*See [krail 346](https://github.com/davidsowerby/krail/issues/346) ViewChangeListeners replaced by Event Bus*
 
-Not yet in use but method is in KrailTestBenchTestCase
+
+---
+*Fix [6](https://github.com/davidsowerby/krail-bench/issues/6) Browsers not closing in test*
+
+Was using the driver variable directly, which does not set the driver up properly for TestBench
+
+
+---
+*See [krail 304](https://github.com/davidsowerby/krail/issues/304) Change to logback*
+
+Logging configuration files changed
 
 
 ---
