@@ -1,1 +1,1 @@
-Chrome driver added, though not yet in use
+Minor change to support Krail move to Event Bus
