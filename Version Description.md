@@ -1,1 +1,1 @@
-Minor change to support Krail move to Event Bus
+This version upgrades to Testbench 4.0.2, and Vaadin 7.4.2
