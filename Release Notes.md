@@ -1,35 +1,30 @@
-### Release Notes for krail-bench 0.7.12
+### Release Notes for krail-bench 0.7.13
 
-Minor change to support Krail move to Event Bus
+This version upgrades to Testbench 4.0.2, and Vaadin 7.4.2
 
 #### Change log
 
--   [6](https://github.com/davidsowerby/krail-bench/issues/6): Test not closing browsers
+-   [7](https://github.com/davidsowerby/krail-bench/issues/7): Testbench 4.0.2
 
 
 #### Dependency changes
 
-   compile dependency version changed to: krail:0.9.0
+   compile dependency version changed to: krail:0.9.1
 
 #### Detail
 
-*Updated version information*
+*Version update information*
 
 
 ---
-*See [krail 346](https://github.com/davidsowerby/krail/issues/346) ViewChangeListeners replaced by Event Bus*
+[krail 353](https://github.com/*davidsowerby/krail/issues/353) Vaadin 7.4.2*
+
+Updated tests.  Had to undo the fix of [152](https://github.com/davidsowerby/krail-bench/issues/152), as it was causing mock to fail for VaadinSession.  Raised a new ticket [354](https://github.com/davidsowerby/krail-bench/issues/354).
+rechecked and eliminated some 'force' statements in the Gradle ResolutionStrategy
 
 
 ---
-*Fix [6](https://github.com/davidsowerby/krail-bench/issues/6) Browsers not closing in test*
-
-Was using the driver variable directly, which does not set the driver up properly for TestBench
-
-
----
-*See [krail 304](https://github.com/davidsowerby/krail/issues/304) Change to logback*
-
-Logging configuration files changed
+*Fix [7](https://github.com/davidsowerby/krail-bench/issues/7) Vaadin Testbench 4.0.2*
 
 
 ---
