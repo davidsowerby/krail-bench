@@ -46,14 +46,14 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     protected LoginFormPageObject loginForm = new LoginFormPageObject(this);
     protected String appContext = "testapp";
     protected Locale firefoxLocale = Locale.UK;
-    private int currentDriverIndex = 1;
+    private int currentDriverIndex = 0;
     private List<WebDriver> drivers = new ArrayList<>();
 
     @Before
     public void baseSetup() throws Exception {
         System.out.println("setting up base test bench case");
 
-        setDriver(TestBench.createDriver(createFirefoxDriver()));
+        addDriver(TestBench.createDriver(createFirefoxDriver()));
         getDriver().manage()
                    .window()
                    .setPosition(new Point(0, 0));
@@ -61,17 +61,27 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
                    .window()
                    .setSize(new Dimension(1024, 768));
         System.out.println("default driver added");
-        addDriver(getDriver());
-        currentDriverIndex = 1;
         System.out.println("current driver index set to " + currentDriverIndex);
     }
 
+    /**
+     * Adds a driver, and if it is the first to be added, also sets it as default driver (the default driver is the 'driver' property of the  {@link
+     * TestBenchTestCase}
+     *
+     * @param driver
+     */
     protected void addDriver(WebDriver driver) {
         System.out.println("adding driver " + drivers.size());
+        WebDriver realDriver;
         if (!(driver instanceof TestBenchDriverProxy)) {
-            drivers.add(TestBench.createDriver(driver));
+            realDriver = TestBench.createDriver(driver);
         } else {
-            drivers.add(driver);
+            realDriver = driver;
+        }
+        drivers.add(realDriver);
+
+        if (drivers.size() == 1) {
+            this.driver = realDriver;
         }
     }
 
@@ -90,9 +100,57 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         return profile;
     }
 
+    /**
+     * The same as {{@link #getDriver(int)} with index of {@link #currentDriverIndex}
+     *
+     * @return the WebDriver instance at index currentDriverIndex
+     */
+    @Override
+    public WebDriver getDriver() {
+        //needed because @Rule assumes that null will be returned when there is no driver
+        if (drivers.size() == 0) {
+            return null;
+        }
+        return drivers.get(currentDriverIndex);
+    }
+
     protected WebDriver createChromeDriver() {
         System.out.println("Creating Chrome driver");
         return new ChromeDriver();
+    }
+
+    /**
+     * "starts" the current driver by navigating the current driver to the {@link #rootUrl}.
+     */
+    protected void startDriver() {
+        getDriver().get(rootUrl());
+    }
+
+    protected String rootUrl() {
+        String rootUrl = buildUrl(baseUrl, appContext);
+        //Tomcat has issues when there is no trailing slash, so make sure it is there
+        if (!rootUrl.endsWith("/")) {
+            rootUrl += "/";
+        }
+        return rootUrl;
+    }
+
+    protected String buildUrl(String... segments) {
+        StringBuilder buf = new StringBuilder();
+        boolean firstSegment = true;
+        for (String segment : segments) {
+            if (!firstSegment) {
+                buf.append("/");
+            } else {
+                firstSegment = false;
+            }
+            buf.append(segment.replace("/", ""));
+        }
+        String result = buf.toString();
+        // slashes will have been removed
+        result = result.replace("http:", "http://");
+        result = result.replace("https:", "https://");
+        return result;
     }
 
     @After
@@ -115,48 +173,29 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     }
 
     protected void verifyUrl(String fragment) {
-        String expected = rootUrl() + "/#" + fragment;
-        String actual = driver.getCurrentUrl();
+        String expected = rootUrl() + "#" + fragment;
+        String actual = getDriver().getCurrentUrl();
         assertThat(actual).isEqualTo(expected);
-    }
-
-    protected String rootUrl() {
-        String rootUrl = buildUrl(baseUrl, appContext);
-        return rootUrl;
-    }
-
-    protected String buildUrl(String... segments) {
-        StringBuilder buf = new StringBuilder();
-        boolean firstSegment = true;
-        for (String segment : segments) {
-            if (!firstSegment) {
-                buf.append("/");
-            } else {
-                firstSegment = false;
-            }
-            buf.append(segment.replace("/", ""));
-        }
-        String result = buf.toString();
-        // slashes will have been removed
-        result = result.replace("http:", "http://");
-        result = result.replace("https:", "https://");
-        return result;
     }
 
     protected void verifyNotUrl(String fragment) {
         String expected = rootUrl() + fragment;
-        String actual = driver.getCurrentUrl();
+        String actual = getDriver().getCurrentUrl();
         assertThat(actual).isNotEqualTo(expected);
     }
 
+    /**
+     * Navigates the current driver to {@code fragment}
+     * @param fragment
+     */
     protected void navigateTo(String fragment) {
         String url = url(fragment);
-        driver.get(url);
+        getDriver().get(url);
         pause(500);
     }
 
     protected String url(String fragment) {
-        return rootUrl() + "/#" + fragment;
+        return rootUrl() + "#" + fragment;
     }
 
     public void pause(int milliseconds) {
@@ -165,6 +204,14 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         } catch (Exception e) {
             log.error("Sleep was interrupted");
         }
+    }
+
+    public WebDriver getDriver(int index) {
+        //needed because @Rule assumes that null will be returned when there is no driver
+        if (drivers.size() == 0) {
+            return null;
+        }
+        return drivers.get(index);
     }
 
     public String getBaseUrl() {
@@ -176,13 +223,13 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     }
 
     protected void navigateForward() {
-        driver.navigate()
+        getDriver().navigate()
               .forward();
         pause(500);
     }
 
     protected void navigateBack() {
-        driver.navigate()
+        getDriver().navigate()
               .back();
         pause(500);
     }
@@ -205,19 +252,17 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         loginForm.login();
     }
 
-    protected <E extends AbstractElement> E element(Class<E> elementClass, Optional<?> qualifier,
-                                                    Class<?>... componentClasses) {
+    protected <E extends AbstractElement> E element(Class<E> elementClass, Optional<?> qualifier, Class<?>... componentClasses) {
 
         return element(elementClass, ID.getIdc(qualifier, componentClasses));
     }
 
     public <E extends AbstractElement> E element(Class<E> elementClass, String id) {
-
         return $(elementClass).id(id);
     }
 
     /**
-     * Indexed from 1 (that is, the default driver is at index 1)
+     * Indexed from 0 (that is, the default driver is at index 0)
      *
      * @param index
      *
@@ -225,7 +270,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
      */
     public WebDriver selectDriver(int index) {
         try {
-            WebDriver wd = drivers.get(index - 1);
+            WebDriver wd = drivers.get(index);
             currentDriverIndex = index;
             setDriver(wd);
             System.out.println("Driver index " + index + " selected");
