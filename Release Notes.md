@@ -1,30 +1,32 @@
-### Release Notes for krail-bench 0.7.13
+### Release Notes for krail-bench 0.7.14
 
-This version upgrades to Testbench 4.0.2, and Vaadin 7.4.2
+Upgrade to Vaadin 7.4.4
 
 #### Change log
 
--   [7](https://github.com/davidsowerby/krail-bench/issues/7): Testbench 4.0.2
 
 
 #### Dependency changes
 
-   compile dependency version changed to: krail:0.9.1
+   compile dependency version changed to: krail:0.9.2
 
 #### Detail
 
-*Version update information*
+*Updated version information*
 
 
 ---
-[krail 353](https://github.com/*davidsowerby/krail/issues/353) Vaadin 7.4.2*
-
-Updated tests.  Had to undo the fix of [152](https://github.com/davidsowerby/krail-bench/issues/152), as it was causing mock to fail for VaadinSession.  Raised a new ticket [354](https://github.com/davidsowerby/krail-bench/issues/354).
-rechecked and eliminated some 'force' statements in the Gradle ResolutionStrategy
+*Merge branch 'krail317' into develop*
 
 
 ---
-*Fix [7](https://github.com/davidsowerby/krail-bench/issues/7) Vaadin Testbench 4.0.2*
+*Fix [krail 317](https://github.com/davidsowerby/krail/issues/317) Guice 4*
+
+The change to Guice 4 highlighted a Tomcat issue with handling a trailing slash - it is not clear why this was an issue for Guice 4, and not Guice 3, but amending tests to handle the trailing slash enabled all regression tests to pass on Tomcat 7 and Tomcat 8
+
+
+---
+*Testapp Tests pass on host tomcat 7*
 
 
 ---
