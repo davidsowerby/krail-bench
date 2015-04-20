@@ -1,18 +1,18 @@
-/.gradle
-/.idea
-/.settings
-/bin
-/build
-/gradle
-/logs
-/out
+.gradle
+.idea
+.settings
+bin
+build
+gradle
+logs
+out
 
-/.krail-bench.iml
+.krail-bench.iml
 
 build.gradle~
 git.ignore~
 
-/.classpath
-/.project
-/.gradle
-/error-screenshots
+.classpath
+.project
+
+error-screenshots

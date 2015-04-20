@@ -1,1 +1,1 @@
-This version upgrades to Testbench 4.0.2, and Vaadin 7.4.2
+Upgrade to Vaadin 7.4.4
