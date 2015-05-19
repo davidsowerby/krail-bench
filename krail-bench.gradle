@@ -22,4 +22,8 @@ dependencies {
 
 }
 
+bintray {
+    dryRun = false
+}
+
 
