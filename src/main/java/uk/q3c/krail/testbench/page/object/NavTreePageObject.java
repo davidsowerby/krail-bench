@@ -58,18 +58,30 @@ public class NavTreePageObject extends PageObject {
         return webElement;
     }
 
-    public void expand(int... index) {
+    /**
+     * Clears the selection
+     */
+    public void clear() {
+        treeElement().clear();
+    }
+
+    private TreeElement treeElement() {
+        return element(TreeElement.class, id);
+    }
+
+    public void expandCollapse(int... index) {
         webElement(true, index).click();
     }
 
-    public void select(String path) {
-        List<Integer> index = treeItemIndex(path, Optional.empty(), DefaultUserNavigationTree.class);
+    /**
+     * Just the first part of the path, no other segments
+     *
+     * @param path0
+     */
+    public void expandCollapse(String path0) {
+        List<Integer> index = treeItemIndex(path0, Optional.empty(), DefaultUserNavigationTree.class);
         int[] indexArray = Ints.toArray(index);
-        select(indexArray);
-    }
-
-    public void select(int... index) {
-        webElement(false, index).click();
+        webElement(true, indexArray[0]).click();
     }
 
     /**
@@ -108,7 +120,6 @@ public class NavTreePageObject extends PageObject {
         List<WebElement> nodeElements = parentElement.findElements(By.className("v-tree-node"));
         List<WebElement> nodeChildrenElements = parentElement.findElements(By.className("v-tree-node-children"));
         List<WebElement> nodeCaptionElements = parentElement.findElements(By.className("v-tree-node-caption"));
-
         int index = -1;
         for (int i = 0; i < nodeElements.size(); i++) {
             WebElement element = nodeElements.get(i);
@@ -126,6 +137,16 @@ public class NavTreePageObject extends PageObject {
         nodeInfo.nodeCaptionElement = nodeCaptionElements.get(index);
         nodeInfo.nodeChildrenElement = nodeChildrenElements.get(index);
         return nodeInfo;
+    }
+
+    public void select(String path) {
+        List<Integer> index = treeItemIndex(path, Optional.empty(), DefaultUserNavigationTree.class);
+        int[] indexArray = Ints.toArray(index);
+        select(indexArray);
+    }
+
+    public void select(int... index) {
+        webElement(false, index).click();
     }
 
     public String currentSelection() {
