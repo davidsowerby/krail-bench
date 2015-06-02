@@ -1,14 +1,12 @@
 /*
- * Copyright (c) 2014 David Sowerby
+ * Copyright (c) 2015. David Sowerby
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for
- * the specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 
 package uk.q3c.krail.testbench.page.object;
@@ -32,7 +30,7 @@ import java.util.Optional;
  */
 public class LoginFormPageObject extends PageObject {
 
-    private Credentials credentials = new Credentials();
+    private Credentials credentials = new Credentials("ds","password");
 
     /**
      * Initialises the PageObject with a reference to the parent test case, so that the PageObject can access a number
@@ -58,6 +56,10 @@ public class LoginFormPageObject extends PageObject {
         this.credentials = credentials;
     }
 
+    public void setCredentials(String username, String password) {
+        this.credentials = new Credentials(username,password);
+    }
+
     /**
      * Log in using {@link #credentials}
      */
@@ -66,11 +68,19 @@ public class LoginFormPageObject extends PageObject {
     }
 
     public void login(String username, String password) {
+        pause(100);
         usernameBox().clear();
+        pause(100);
         usernameBox().sendKeys(username);
+        System.out.println(usernameBox().getText());
+        System.out.println(usernameBox().getText());
+        pause(100);
         passwordBox().clear();
+        pause(100);
         passwordBox().sendKeys(password);
+        pause(100);
         submitButton().click();
+        pause(100);
 
     }
 
@@ -97,8 +107,13 @@ public class LoginFormPageObject extends PageObject {
 
 
     public static class Credentials {
-        private String password = "password";
-        private String username = "ds";
+        private String password;
+        private String username;
+
+        public Credentials( String username, String password) {
+            this.password = password;
+            this.username = username;
+        }
     }
 
 
