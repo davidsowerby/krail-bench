@@ -1,1 +1,1 @@
-Upgrade to Vaadin 7.4.6, minor change to build file for bintrayUpload
+A bit more support for alternative logins
