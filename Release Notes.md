@@ -1,6 +1,6 @@
-### Release Notes for krail-bench 0.7.15
+### Release Notes for krail-bench 0.7.16
 
-Upgrade to Vaadin 7.4.6, minor change to build file for bintrayUpload
+A bit more support for alternative logins
 
 #### Change log
 
@@ -8,17 +8,19 @@ Upgrade to Vaadin 7.4.6, minor change to build file for bintrayUpload
 
 #### Dependency changes
 
-   compile dependency version changed to: krail:0.9.3
+   compile dependency version changed to: krail:0.9.4
 
 #### Detail
 
-*Updated version info*
+*Version info updated*
 
 
 ---
-*Bintray upload changes*
+*Simplified login with alternative credentials*
 
-dryRun=true by default (set by krail-master), unless overridden by individual projects
+
+---
+*Tests modified for [krail 292](https://github.com/davidsowerby/krail/issues/292)*
 
 
 ---
