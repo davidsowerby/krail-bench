@@ -31,10 +31,7 @@ import uk.q3c.krail.testbench.page.object.LoginFormPageObject;
 import uk.q3c.krail.testbench.page.object.LoginStatusPageObject;
 import uk.q3c.util.ID;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -124,6 +121,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
      */
     protected void startDriver() {
         getDriver().get(rootUrl());
+        waitForUrl("home");
     }
 
     protected String rootUrl() {
@@ -153,6 +151,19 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         return result;
     }
 
+    public boolean waitForUrl(String fragment){
+        long startTime= new Date().getTime();
+        long elapsedTime=0;
+        String expected = rootUrl() + "#" + fragment;
+        String actual = getDriver().getCurrentUrl();
+        while (!actual.equals(expected) && (elapsedTime < 2000)) {
+            actual = getDriver().getCurrentUrl();
+            elapsedTime=new Date().getTime()-startTime;
+            System.out.println("waiting for url: "+fragment+" "+elapsedTime+"ms");
+        }
+        return elapsedTime< 2000;
+    }
+
     @After
     public void baseTearDown() {
         System.out.println("closing all drivers");
@@ -166,6 +177,15 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         //        }
 
         drivers.clear();
+        pause(1000);
+    }
+
+    public void pause(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (Exception e) {
+            log.error("Sleep was interrupted");
+        }
     }
 
     public String getAppContext() {
@@ -191,19 +211,11 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     protected void navigateTo(String fragment) {
         String url = url(fragment);
         getDriver().get(url);
-        pause(500);
+        waitForUrl(fragment);
     }
 
     protected String url(String fragment) {
         return rootUrl() + "#" + fragment;
-    }
-
-    public void pause(int milliseconds) {
-        try {
-            Thread.sleep(milliseconds);
-        } catch (Exception e) {
-            log.error("Sleep was interrupted");
-        }
     }
 
     public WebDriver getDriver(int index) {
@@ -249,6 +261,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     protected void login() {
         loginStatus.loginButton()
                    .click();
+        System.out.println("login status button clicked");
         loginForm.login();
     }
 

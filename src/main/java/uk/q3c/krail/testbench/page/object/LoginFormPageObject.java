@@ -68,24 +68,34 @@ public class LoginFormPageObject extends PageObject {
     }
 
     public void login(String username, String password) {
-        pause(100);
-        usernameBox().clear();
-        pause(100);
-        usernameBox().sendKeys(username);
-        System.out.println(usernameBox().getText());
-        System.out.println(usernameBox().getText());
-        pause(100);
+        parentCase.waitForUrl("login");
+        while (!usernameBox().getValue()
+                            .isEmpty()) {
+            usernameBox().clear();
+            System.out.println("cleared username box");
+        }
+
+        while (!usernameBox().getValue().equals(username)) {
+            usernameBox().sendKeys(username);
+            System.out.println("user name set to "+username);
+        }
+
+
         passwordBox().clear();
         pause(100);
         passwordBox().sendKeys(password);
-        pause(100);
+        while (passwordBox().getValue()
+                            .isEmpty()) {
+            System.out.println("waiting for password box");
+        }
+
         submitButton().click();
         pause(100);
 
     }
 
     public TextFieldElement usernameBox() {
-        return element(TextFieldElement.class, Optional.of("username"), DefaultLoginView.class, TextField.class);
+            return  element(TextFieldElement.class, Optional.of("username"), DefaultLoginView.class, TextField.class);
     }
 
     public PasswordFieldElement passwordBox() {
