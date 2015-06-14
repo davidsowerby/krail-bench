@@ -1,1 +1,1 @@
-A bit more support for alternative logins
+This version removes the need for calls to pause() for navigate and login methods
