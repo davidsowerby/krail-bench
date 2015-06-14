@@ -1,6 +1,6 @@
-### Release Notes for krail-bench 0.7.16
+### Release Notes for krail-bench 0.8.0
 
-A bit more support for alternative logins
+This version removes the need for calls to pause() for navigate and login methods
 
 #### Change log
 
@@ -8,19 +8,16 @@ A bit more support for alternative logins
 
 #### Dependency changes
 
-   compile dependency version changed to: krail:0.9.4
+   compile dependency version changed to: krail:0.9.5
 
 #### Detail
 
-*Version info updated*
+*Updated version information*
 
 
 ---
-*Simplified login with alternative credentials*
-
-
----
-*Tests modified for [krail 292](https://github.com/davidsowerby/krail/issues/292)*
+*Added "waitForUrl()" so arbitrary pause() statements can be removed.*
+Added loop to login, in case login form is a bit slow to come up
 
 
 ---
