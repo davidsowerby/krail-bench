@@ -1,1 +1,1 @@
-This version removes the need for calls to pause() for navigate and login methods
+This version fixes SubPagePanelPageObject
