@@ -1,6 +1,6 @@
-### Release Notes for krail-bench 0.8.0
+### Release Notes for krail-bench 0.8.1
 
-This version removes the need for calls to pause() for navigate and login methods
+This version fixes SubPagePanelPageObject
 
 #### Change log
 
@@ -8,16 +8,19 @@ This version removes the need for calls to pause() for navigate and login method
 
 #### Dependency changes
 
-   compile dependency version changed to: krail:0.9.5
+   compile dependency version changed to: krail:0.9.6
 
 #### Detail
 
-*Updated version information*
+*Pre-release - update version descriptions and version properties*
 
 
 ---
-*Added "waitForUrl()" so arbitrary pause() statements can be removed.*
-Added loop to login, in case login form is a bit slow to come up
+*SubPagePanelPageObject revised*
+
+The previous method for returning the visible sub-pages fails.  Cause is not certian, but could be the change of theme - the old method relied on the getText() method of the panel.
+
+ Revised to actually look for the navigation buttons
 
 
 ---
