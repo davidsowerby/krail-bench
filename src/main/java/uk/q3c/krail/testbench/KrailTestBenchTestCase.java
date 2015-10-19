@@ -152,16 +152,17 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     }
 
     public boolean waitForUrl(String fragment){
+        int timeout = 5000;
         long startTime= new Date().getTime();
         long elapsedTime=0;
         String expected = rootUrl() + "#" + fragment;
         String actual = getDriver().getCurrentUrl();
-        while (!actual.equals(expected) && (elapsedTime < 2000)) {
+        while (!actual.equals(expected) && (elapsedTime < timeout)) {
             actual = getDriver().getCurrentUrl();
             elapsedTime=new Date().getTime()-startTime;
             System.out.println("waiting for url: "+fragment+" "+elapsedTime+"ms");
         }
-        return elapsedTime< 2000;
+        return elapsedTime < timeout;
     }
 
     @After
