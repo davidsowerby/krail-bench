@@ -152,7 +152,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     }
 
     public boolean waitForUrl(String fragment){
-        int timeout = 5000;
+        int timeout = 6000;
         long startTime= new Date().getTime();
         long elapsedTime=0;
         String expected = rootUrl() + "#" + fragment;
@@ -213,6 +213,12 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         String url = url(fragment);
         getDriver().get(url);
         waitForUrl(fragment);
+    }
+
+    protected void navigateWithRedirectExpected(String requestedUrl, String expectedUrl) {
+        String url = url(requestedUrl);
+        getDriver().get(url);
+        waitForUrl(expectedUrl);
     }
 
     protected String url(String fragment) {
