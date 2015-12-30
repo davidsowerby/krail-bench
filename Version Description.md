@@ -1,1 +1,1 @@
-This version fixes SubPagePanelPageObject
+A trivial change only to timeout values for tests
