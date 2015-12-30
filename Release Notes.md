@@ -1,6 +1,6 @@
-### Release Notes for krail-bench 0.8.1
+### Release Notes for krail-bench 0.8.2
 
-This version fixes SubPagePanelPageObject
+A trivial change only to timeout values for tests
 
 #### Change log
 
@@ -8,19 +8,21 @@ This version fixes SubPagePanelPageObject
 
 #### Dependency changes
 
-   compile dependency version changed to: krail:0.9.6
+   compile dependency version changed to: krail:0.9.7
 
 #### Detail
 
-*Pre-release - update version descriptions and version properties*
+*Updated version and version description*
 
 
 ---
-*SubPagePanelPageObject revised*
+*Timeout for URL changed to 6s*
 
-The previous method for returning the visible sub-pages fails.  Cause is not certian, but could be the change of theme - the old method relied on the getText() method of the panel.
 
- Revised to actually look for the navigation buttons
+---
+*Adjustments to tests*
+
+- Adjusted timeout for navigating to URL
 
 
 ---
