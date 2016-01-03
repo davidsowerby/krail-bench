@@ -1,12 +1,14 @@
 /*
- * Copyright (c) 2015. David Sowerby
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *  * Copyright (c) 2016. David Sowerby
+ *  *
+ *  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ *  * the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *  *
+ *  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ *  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ *  * specific language governing permissions and limitations under the License.
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
  */
 
 package uk.q3c.krail.testbench.page.object;
@@ -30,7 +32,7 @@ import java.util.Optional;
  */
 public class LoginFormPageObject extends PageObject {
 
-    private Credentials credentials = new Credentials("ds","password");
+    private Credentials credentials = new Credentials("ds", "password");
 
     /**
      * Initialises the PageObject with a reference to the parent test case, so that the PageObject can access a number
@@ -57,27 +59,36 @@ public class LoginFormPageObject extends PageObject {
     }
 
     public void setCredentials(String username, String password) {
-        this.credentials = new Credentials(username,password);
+        this.credentials = new Credentials(username, password);
     }
 
     /**
      * Log in using {@link #credentials}
      */
     public void login() {
-        login(credentials.username, credentials.password);
+        login(credentials.username, credentials.password, false);
+    }
+
+    public void loginWithEnterKey() {
+        login(credentials.username, credentials.password, true);
     }
 
     public void login(String username, String password) {
+        login(username, password, false);
+    }
+
+    public void login(String username, String password, boolean useEnterKey) {
         parentCase.waitForUrl("login");
         while (!usernameBox().getValue()
-                            .isEmpty()) {
+                             .isEmpty()) {
             usernameBox().clear();
             System.out.println("cleared username box");
         }
 
-        while (!usernameBox().getValue().equals(username)) {
+        while (!usernameBox().getValue()
+                             .equals(username)) {
             usernameBox().sendKeys(username);
-            System.out.println("user name set to "+username);
+            System.out.println("user name set to " + username);
         }
 
 
@@ -89,13 +100,17 @@ public class LoginFormPageObject extends PageObject {
             System.out.println("waiting for password box");
         }
 
-        submitButton().click();
+        if (useEnterKey) {
+            passwordBox().sendKeys("\n");
+        } else {
+            submitButton().click();
+        }
         pause(100);
 
     }
 
     public TextFieldElement usernameBox() {
-            return  element(TextFieldElement.class, Optional.of("username"), DefaultLoginView.class, TextField.class);
+        return element(TextFieldElement.class, Optional.of("username"), DefaultLoginView.class, TextField.class);
     }
 
     public PasswordFieldElement passwordBox() {
@@ -120,7 +135,7 @@ public class LoginFormPageObject extends PageObject {
         private String password;
         private String username;
 
-        public Credentials( String username, String password) {
+        public Credentials(String username, String password) {
             this.password = password;
             this.username = username;
         }

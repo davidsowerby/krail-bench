@@ -1,14 +1,14 @@
 /*
- * Copyright (C) 2013 David Sowerby
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ *
+ *  * Copyright (c) 2016. David Sowerby
+ *  *
+ *  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ *  * the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *  *
+ *  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ *  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ *  * specific language governing permissions and limitations under the License.
+ *
  */
 package uk.q3c.krail.testbench;
 
@@ -270,6 +270,16 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
                    .click();
         System.out.println("login status button clicked");
         loginForm.login();
+    }
+
+    /**
+     * shorthand method to click the login button, and fill in the login form using credentials in {@link #loginForm} and using enter key to submit
+     */
+    protected void loginWithEnterKey() {
+        loginStatus.loginButton()
+                   .click();
+        System.out.println("login status button clicked");
+        loginForm.loginWithEnterKey();
     }
 
     protected <E extends AbstractElement> E element(Class<E> elementClass, Optional<?> qualifier, Class<?>... componentClasses) {
