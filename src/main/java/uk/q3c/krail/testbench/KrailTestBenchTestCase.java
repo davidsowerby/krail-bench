@@ -17,6 +17,7 @@ import com.vaadin.testbench.TestBenchDriverProxy;
 import com.vaadin.testbench.TestBenchTestCase;
 import com.vaadin.testbench.elements.NotificationElement;
 import com.vaadin.testbench.elementsbase.AbstractElement;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.Dimension;
@@ -92,7 +93,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         FirefoxProfile profile = new FirefoxProfile();
         String s1 = locale.toLanguageTag()
                           .toLowerCase()
-                          .replace("_", "-");
+                          .replace('_', '-');
         profile.setPreference("intl.accept_languages", s1);
         return profile;
     }
@@ -105,7 +106,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     @Override
     public WebDriver getDriver() {
         //needed because @Rule assumes that null will be returned when there is no driver
-        if (drivers.size() == 0) {
+        if (drivers.isEmpty()) {
             return null;
         }
         return drivers.get(currentDriverIndex);
@@ -128,7 +129,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         String rootUrl = buildUrl(baseUrl, appContext);
         //Tomcat has issues when there is no trailing slash, so make sure it is there
         if (!rootUrl.endsWith("/")) {
-            rootUrl += "/";
+            rootUrl += '/';
         }
         return rootUrl;
     }
@@ -138,7 +139,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         boolean firstSegment = true;
         for (String segment : segments) {
             if (!firstSegment) {
-                buf.append("/");
+                buf.append('/');
             } else {
                 firstSegment = false;
             }
@@ -147,20 +148,20 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         String result = buf.toString();
         // slashes will have been removed
         result = result.replace("http:", "http://");
-        result = result.replace("https:", "https://");
-        return result;
+        return result.replace("https:", "https://");
     }
 
+    @SuppressFBWarnings("PCAIL_POSSIBLE_CONSTANT_ALLOCATION_IN_LOOP")
     public boolean waitForUrl(String fragment){
         int timeout = 5000;
         long startTime = new Date().getTime();
         long elapsedTime = 0;
-        String expected = rootUrl() + "#" + fragment;
+        String expected = rootUrl() + '#' + fragment;
         String actual = getDriver().getCurrentUrl();
         while (!actual.equals(expected) && (elapsedTime < timeout)) {
             actual = getDriver().getCurrentUrl();
             elapsedTime = new Date().getTime() - startTime;
-            System.out.println("waiting for url: " + fragment + " " + elapsedTime + "ms");
+            System.out.println("waiting for url: " + fragment + ' ' + elapsedTime + "ms");
         }
         return elapsedTime < timeout;
     }
@@ -169,7 +170,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     public void baseTearDown() {
         System.out.println("closing all drivers");
         for (WebDriver webDriver : drivers) {
-            System.out.println("closing web driver: " + webDriver.getTitle() + "");
+            System.out.println("closing web driver: " + webDriver.getTitle());
             webDriver.close();
 
         }
@@ -194,7 +195,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     }
 
     protected void verifyUrl(String fragment) {
-        String expected = rootUrl() + "#" + fragment;
+        String expected = rootUrl() + '#' + fragment;
         String actual = getDriver().getCurrentUrl();
         assertThat(actual).isEqualTo(expected);
     }
@@ -222,12 +223,12 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     }
 
     protected String url(String fragment) {
-        return rootUrl() + "#" + fragment;
+        return rootUrl() + '#' + fragment;
     }
 
     public WebDriver getDriver(int index) {
         //needed because @Rule assumes that null will be returned when there is no driver
-        if (drivers.size() == 0) {
+        if (drivers.isEmpty()) {
             return null;
         }
         return drivers.get(index);
@@ -258,8 +259,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     }
 
     protected NotificationElement notification() {
-        NotificationElement notification = $(NotificationElement.class).get(0);
-        return notification;
+        return $(NotificationElement.class).get(0);
     }
 
     /**
@@ -298,6 +298,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
      *
      * @return
      */
+    @SuppressFBWarnings("EXS_EXCEPTION_SOFTENING_NO_CONSTRAINTS")
     public WebDriver selectDriver(int index) {
         try {
             WebDriver wd = drivers.get(index);
@@ -306,7 +307,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
             System.out.println("Driver index " + index + " selected");
             return driver;
         } catch (Exception e) {
-            throw new RuntimeException("Driver index of " + index + " is invalid");
+            throw new RuntimeException("Driver index of " + index + " is invalid", e);
         }
     }
 

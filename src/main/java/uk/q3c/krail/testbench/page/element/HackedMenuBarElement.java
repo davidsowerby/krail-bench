@@ -1,14 +1,14 @@
 /*
- * Copyright (c) 2014 David Sowerby
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ *  * Copyright (c) 2016. David Sowerby
+ *  *
+ *  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ *  * the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *  *
+ *  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ *  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ *  * specific language governing permissions and limitations under the License.
  *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for
- * the specific language governing permissions and limitations under the License.
  */
 
 package uk.q3c.krail.testbench.page.element;
@@ -18,6 +18,7 @@ import com.vaadin.testbench.elements.MenuBarElement;
 import com.vaadin.testbench.elementsbase.ServerClass;
 import com.vaadin.testbench.exceptions.LowVaadinVersionException;
 import com.vaadin.testbench.util.VersionUtil;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -33,6 +34,7 @@ import java.util.List;
  * <p/>
  * Created by David Sowerby on 19/10/14.
  */
+@SuppressFBWarnings("FCBL_FIELD_COULD_BE_LOCAL")
 @ServerClass("com.vaadin.ui.MenuBar")
 public class HackedMenuBarElement extends AbstractComponentElement {
 
@@ -118,7 +120,7 @@ public class HackedMenuBarElement extends AbstractComponentElement {
 
     private WebElement getSelectedTopLevelItem() {
         List<WebElement> selectedItems = findElements(By.className("v-menubar-menuitem-selected"));
-        if (selectedItems.size() == 0) {
+        if (selectedItems.isEmpty()) {
             return null;
         }
         return selectedItems.get(0);
@@ -158,6 +160,7 @@ public class HackedMenuBarElement extends AbstractComponentElement {
         }
     }
 
+    @SuppressFBWarnings("PRMC_POSSIBLY_REDUNDANT_METHOD_CALLS")// not worth trying to fix
     private boolean isSelectedTopLevelItem(WebElement item) {
         WebElement selectedItem = getSelectedTopLevelItem();
         if (selectedItem == null) {
@@ -183,7 +186,7 @@ public class HackedMenuBarElement extends AbstractComponentElement {
 
     private boolean hasSubmenu(WebElement item) {
         List<WebElement> submenuIndicatorElements = item.findElements(By.className("v-menubar-submenu-indicator"));
-        return submenuIndicatorElements.size() != 0;
+        return !submenuIndicatorElements.isEmpty();
     }
 
     private boolean isLeaf(WebElement item) {

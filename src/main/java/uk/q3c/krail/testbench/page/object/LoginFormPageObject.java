@@ -21,6 +21,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import uk.q3c.krail.core.view.DefaultLoginView;
 import uk.q3c.krail.testbench.KrailTestBenchTestCase;
 
@@ -30,7 +31,9 @@ import java.util.Optional;
 /**
  * Created by david on 03/10/14.
  */
+@SuppressFBWarnings("CD_CIRCULAR_DEPENDENCY")
 public class LoginFormPageObject extends PageObject {
+
 
     private Credentials credentials = new Credentials("ds", "password");
 
@@ -79,29 +82,32 @@ public class LoginFormPageObject extends PageObject {
 
     public void login(String username, String password, boolean useEnterKey) {
         parentCase.waitForUrl("login");
-        while (!usernameBox().getValue()
+        TextFieldElement usernameBox = usernameBox();
+        PasswordFieldElement passwordBox = passwordBox();
+
+        while (!usernameBox.getValue()
                              .isEmpty()) {
-            usernameBox().clear();
+            usernameBox.clear();
             System.out.println("cleared username box");
         }
 
         while (!usernameBox().getValue()
                              .equals(username)) {
-            usernameBox().sendKeys(username);
+            usernameBox.sendKeys(username);
             System.out.println("user name set to " + username);
         }
 
 
-        passwordBox().clear();
+        passwordBox.clear();
         pause(100);
-        passwordBox().sendKeys(password);
-        while (passwordBox().getValue()
+        passwordBox.sendKeys(password);
+        while (passwordBox.getValue()
                             .isEmpty()) {
             System.out.println("waiting for password box");
         }
 
         if (useEnterKey) {
-            passwordBox().sendKeys("\n");
+            passwordBox.sendKeys("\n");
         } else {
             submitButton().click();
         }
