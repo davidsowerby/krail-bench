@@ -1,1 +1,1 @@
-A trivial change only to timeout values for tests
+A trivial change - gradle build file renamed, with a view to using Travis later
