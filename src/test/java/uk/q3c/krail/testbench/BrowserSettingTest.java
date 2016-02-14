@@ -14,15 +14,13 @@
 package uk.q3c.krail.testbench;
 
 import com.vaadin.testbench.Parameters;
-import com.vaadin.testbench.screenshot.ImageFileUtil;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
 import uk.q3c.krail.util.DefaultResourceUtils;
 import uk.q3c.krail.util.ResourceUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Locale;
 
 /**
@@ -48,32 +46,40 @@ public class BrowserSettingTest extends KrailTestBenchTestCase {
     }
 
     @Test
-    public void localeSetting_Germany() throws IOException {
-        //given
+    public void trial() throws Exception {
         firefoxLocale = Locale.GERMANY;
-        addDriver(createFirefoxDriver());
-        driver(0).manage()
-              .window()
-              .setSize(new Dimension(1024, 768));
-        //when
+        WebDriver newDriver = createFirefoxDriver();
+        addDriver(newDriver);
         driver(0).get("https://www.google.co.uk/");
-        //then
-        testBench(driver(0)).compareScreen(ImageFileUtil.getReferenceScreenshotFile("germany.png"));
     }
 
-    @Test
-    public void localeSetting_Italy() throws IOException {
-        //given
-        firefoxLocale = Locale.ITALY;
-        addDriver(createFirefoxDriver());
-        driver(0).manage()
-              .window()
-              .setSize(new Dimension(1024, 768));
-        //when
-        driver(0).get("https://www.google.co.uk/");
-        //then
-        testBench(driver(0)).compareScreen(ImageFileUtil.getReferenceScreenshotFile("italy.png"));
-    }
+    //    @Test
+//    public void localeSetting_Germany() throws IOException {
+//        //given
+//        firefoxLocale = Locale.GERMANY;
+//        addDriver(createFirefoxDriver());
+//        driver(0).manage()
+//              .window()
+//              .setSize(new Dimension(1024, 768));
+//        //when
+//        driver(0).get("https://www.google.co.uk/");
+//        //then
+//        testBench(driver(0)).compareScreen(ImageFileUtil.getReferenceScreenshotFile("germany.png"));
+//    }
+//
+//    @Test
+//    public void localeSetting_Italy() throws IOException {
+//        //given
+//        firefoxLocale = Locale.ITALY;
+//        addDriver(createFirefoxDriver());
+//        driver(0).manage()
+//              .window()
+//              .setSize(new Dimension(1024, 768));
+//        //when
+//        driver(0).get("https://www.google.co.uk/");
+//        //then
+//        testBench(driver(0)).compareScreen(ImageFileUtil.getReferenceScreenshotFile("italy.png"));
+//    }
 
 
 }

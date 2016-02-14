@@ -1,5 +1,10 @@
 #krail-bench
 
+![License](http://img.shields.io/:license-apache-blue.svg)
+[![Gitter](https://badges.gitter.im/davidsowerby/krail.svg)](https://gitter.im/davidsowerby/krail?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Build Status](https://travis-ci.org/davidsowerby/krail-benchkrail-bench.svg?branch=master)](https://travis-ci.org/davidsowerby/krail-bench)
+[![Coverage Status](https://coveralls.io/repos/github/davidsowerby/krail-bench/badge.svg?branch=master)](https://coveralls.io/github/davidsowerby/krail-bench?branch=master)
+
 Vaadin Testbench extensions to use with [Krail](https://github.com/davidsowerby/krail)
 
 Vaadin TestBench is a licenced product and these extensions will therefore not be of any value unless you have a licence.

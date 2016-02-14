@@ -10,22 +10,192 @@
  *  * specific language governing permissions and limitations under the License.
  *
  */
+buildscript {
+    repositories {
+        jcenter()
+        mavenLocal()
+    }
 
-description = 'Some common Vaadin Testbench classes for use with Krail '
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.5'
+        classpath 'commons-io:commons-io:2.4'
+        classpath 'uk.q3c:q3c-gradle:0.7.3'
+    }
+}
+
+plugins {
+    id 'groovy'
+    id 'jacoco'
+    id 'project-report'
+    id 'com.github.kt3k.coveralls' version '2.4.0x'
+}
+
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'idea'
+apply plugin: 'q3c-release'
+
+group = 'uk.q3c.krail'
+version = '0.8.4'
+//version = versionFromFile(project.projectDir)
+description = 'Some common Vaadin Testbench classes for use with Krail'
+
+ext.assertjVersion = '3.3.0'
+//ext.slf4jVersion = '1.7.6'
+ext.vaadinTestbenchVersion = '4.0.3'
+ext.gsonVersion = '2.3.1'
+
+ext.versionDescription = 'No version description provided'
+ext.releaseDate = new Date()
+
+sourceCompatibility = '1.8'
+
+repositories {
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url 'http://maven.vaadin.com/vaadin-addons'
+    }
+}
 
 dependencies {
 
-    //Krail
+//    //Krail
+    compile 'uk.q3c.krail:krail:0.9.9' // needed for ID class
+
+    //assert
     compile 'org.assertj:assertj-core:' + assertjVersion
+
+    //logging
+//    compile 'org.slf4j:slf4j-api:' + slf4jVersion
+//    compile 'ch.qos.logback:logback-classic:1.1.2'
+//    compile 'ch.qos.logback:logback-core:1.1.2'
+
     //Testbench
     compile 'com.vaadin:vaadin-testbench:' + vaadinTestbenchVersion
     //this seems to have been introduced by testbench 4.0.2
     compile 'com.google.code.gson:gson:' + gsonVersion
-
+    compile 'com.google.code.findbugs:annotations:3.0.0'
 }
 
 bintray {
     dryRun = false
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.10'
+}
+
+jacocoTestReport.reports.xml.enabled = true
+
+
+publishing {
+    publications {
+        mavenStuff(MavenPublication) {
+            from components.java
+
+            artifact sourcesJar {
+                classifier "sources"
+            }
+
+            artifact javadocJar {
+                classifier "javadoc"
+            }
+        }
+    }
+}
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+javadoc {
+    failOnError = false
+}
+
+task verifyRelease(type: uk.q3c.gradle.VerificationTask) {
+
+}
+
+task prepareRelease(type: uk.q3c.gradle.PrepareReleaseTask) {
+
+}
+
+task release(type: uk.q3c.gradle.ReleaseTask) {
+
+}
+
+bintray {
+    user = 'dsowerby'
+    key = getKeyForBintray()
+
+    publications = ['mavenStuff'] //When uploading Maven-based publication files
+    dryRun = false  //project.ext.bintrayDryRun //Whether to run this as dry-run, without deploying
+    publish = true //If version should be auto published after an upload
+    pkg {
+        repo = 'maven'
+//        userOrg = 'myorg' //An optional organization name when the repo belongs to one of the user's orgs
+        name = project.name
+        desc = project.description
+        websiteUrl = 'https://github.com/davidsowerby/' + project.name
+        issueTrackerUrl = websiteUrl + '/issues'
+        vcsUrl = websiteUrl + '.git'
+        licenses = ['Apache-2.0']
+        labels = ['krail', 'test']
+        publicDownloadNumbers = true
+        //Optional version descriptor
+        version {
+            name = project.version
+            desc = project.ext.versionDescription
+            released = project.ext.releaseDate
+            //'optional, date of the version release' //2 possible values: date in the format of 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ' OR a java.util.Date instance
+            mavenCentralSync {
+                sync = false //Optional (true by default). Determines whether to sync the version to Maven Central.
+            }
+        }
+    }
+}
+
+def versionFromFile(File projectRoot) {
+    def Properties props = new Properties()
+    def propFile = new File(projectRoot, 'version.properties')
+    if (propFile.canRead()) {
+        props.load(new FileInputStream(propFile))
+    }
+    String key = "CURRENT_VERSION"
+    println(projectRoot.getName() + ": version is " + props[key])
+    props[key]
+}
+//Need to identify whether platform has the Bintray key (Travis etc will not)
+def getKeyForBintray() {
+    def keyValue = System.getenv("BINTRAY")
+    if (keyValue == null) {
+        println 'returning no bintray key'
+        return 'no bintray key'
+    } else {
+        println 'returning bintray key: '
+        return bintrayKey
+    }
+}
 
