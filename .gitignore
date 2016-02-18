@@ -7,7 +7,7 @@ gradle
 logs
 out
 
-.krail-bench.iml
+krail-bench.iml
 
 build.gradle~
 git.ignore~
