@@ -50,7 +50,7 @@ public class BrowserSettingTest extends KrailTestBenchTestCase {
         firefoxLocale = Locale.GERMANY;
         WebDriver newDriver = createFirefoxDriver();
         addDriver(newDriver);
-        driver(0).get("https://www.google.co.uk/");
+        newDriver.get("https://www.google.co.uk/");
     }
 
     //    @Test
@@ -64,7 +64,7 @@ public class BrowserSettingTest extends KrailTestBenchTestCase {
 //        //when
 //        driver(0).get("https://www.google.co.uk/");
 //        //then
-//        testBench(driver(0)).compareScreen(ImageFileUtil.getReferenceScreenshotFile("germany.png"));
+//        /usrh(driver(0)).compareScreen(ImageFileUtil.getReferenceScreenshotFile("germany.png"));
 //    }
 //
 //    @Test

@@ -16,8 +16,6 @@ package uk.q3c.krail.testbench.page.element;
 import com.vaadin.testbench.elements.AbstractComponentElement;
 import com.vaadin.testbench.elements.MenuBarElement;
 import com.vaadin.testbench.elementsbase.ServerClass;
-import com.vaadin.testbench.exceptions.LowVaadinVersionException;
-import com.vaadin.testbench.util.VersionUtil;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
@@ -31,7 +29,7 @@ import java.util.List;
 /**
  * THIS IS A VERY BADLY HACKED VERSION FOR USE ONLY UNTIL I FIND OUT WHAT IS WRONG WITH {@link MenuBarElement}.  DO NOT
  * USE THIS CLASS IF YOU CAN AVOID IT - IT WILL BE REMOVED
- * <p/>
+ * <br>
  * Created by David Sowerby on 19/10/14.
  */
 @SuppressFBWarnings("FCBL_FIELD_COULD_BE_LOCAL")
@@ -49,18 +47,17 @@ public class HackedMenuBarElement extends AbstractComponentElement {
      * path given is last item only).
      * <p>
      * Example:<br>
-     * <p/>
+     *
      * <pre>
      * // clicks on &quot;File&quot; item
      * menuBarElement.click(&quot;File&quot;);
      * // clicks on &quot;Copy&quot; item in &quot;File&quot; top level menu.
      * menuBarElement.click(&quot;File&quot;, &quot;Copy&quot;);
      * </pre>
-     * <p/>
-     * </p>
      *
-     * @param path
-     *         Array of items to click through, starting at the root
+     *
+     *
+     * @param path Array of items to click through, starting at the root
      */
     public void clickItem(String... path) {
         checkVersion();
@@ -83,7 +80,7 @@ public class HackedMenuBarElement extends AbstractComponentElement {
         WebElement selectedElement = null;
         for (WebElement element : elements) {
             if (element.getText()
-                       .equals(item)) {
+                    .equals(item)) {
                 selectedElement = element;
                 break;
             }
@@ -98,10 +95,10 @@ public class HackedMenuBarElement extends AbstractComponentElement {
     }
 
     private void checkVersion() {
-        if (!isMenuBarApiSupported()) {
-            throw new LowVaadinVersionException(String.format("Vaadin version required: %d.%d.%d",
-                    vaadinMajorVersionRequired, vaadinMinorVersionRequired, vaadinRevisionRequired));
-        }
+//        if (!isMenuBarApiSupported()) {
+//            throw new LowVaadinVersionException(String.format("Vaadin version required: %d.%d.%d",
+//                    vaadinMajorVersionRequired, vaadinMinorVersionRequired, vaadinRevisionRequired));
+//        }
     }
 
     /**
@@ -144,7 +141,7 @@ public class HackedMenuBarElement extends AbstractComponentElement {
         Actions action = new Actions(getDriver());
         action.moveToElement(item);
         action.build()
-              .perform();
+                .perform();
 
         if (isLeaf(item) || isSelectedTopLevelItem(item)) {
             lastItemLocationMovedTo = null;
@@ -156,7 +153,7 @@ public class HackedMenuBarElement extends AbstractComponentElement {
             action = new Actions(getDriver());
             action.click();
             action.build()
-                  .perform();
+                    .perform();
         }
     }
 
@@ -168,11 +165,11 @@ public class HackedMenuBarElement extends AbstractComponentElement {
         }
 
         String itemCaption = item.findElements(By.className("v-menubar-menuitem-caption"))
-                                 .get(0)
-                                 .getAttribute("innerHTML");
+                .get(0)
+                .getAttribute("innerHTML");
         String selectedItemCaption = selectedItem.findElements(By.className("v-menubar-menuitem-caption"))
-                                                 .get(0)
-                                                 .getAttribute("innerHTML");
+                .get(0)
+                .getAttribute("innerHTML");
         return itemCaption.equals(selectedItemCaption);
     }
 
@@ -199,8 +196,7 @@ public class HackedMenuBarElement extends AbstractComponentElement {
      */
     private boolean isMenuBarApiSupported() {
 
-        return VersionUtil.isAtLeast(vaadinMajorVersionRequired, vaadinMinorVersionRequired, vaadinRevisionRequired,
-                getDriver());
+        return true;
     }
 
 }
