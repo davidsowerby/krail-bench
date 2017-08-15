@@ -16,10 +16,10 @@ package uk.q3c.krail.testbench.page.object;
 import com.vaadin.testbench.By;
 import com.vaadin.testbench.elements.MenuBarElement;
 import org.openqa.selenium.WebElement;
+import uk.q3c.krail.core.vaadin.ID;
 import uk.q3c.krail.core.view.component.DefaultUserNavigationMenu;
 import uk.q3c.krail.testbench.KrailTestBenchTestCase;
 import uk.q3c.krail.testbench.page.element.HackedMenuBarElement;
-import uk.q3c.util.ID;
 
 import java.util.Optional;
 

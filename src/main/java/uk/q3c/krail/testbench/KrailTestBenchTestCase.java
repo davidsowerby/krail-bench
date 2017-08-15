@@ -28,13 +28,13 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.q3c.krail.core.vaadin.ID;
 import uk.q3c.krail.testbench.page.object.LoginFormPageObject;
 import uk.q3c.krail.testbench.page.object.LoginStatusPageObject;
-import uk.q3c.util.ID;
 
 import java.util.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 public class KrailTestBenchTestCase extends TestBenchTestCase {
     private static Logger log = LoggerFactory.getLogger(KrailTestBenchTestCase.class);

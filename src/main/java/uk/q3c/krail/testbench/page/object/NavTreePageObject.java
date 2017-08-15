@@ -17,13 +17,13 @@ import com.google.common.primitives.Ints;
 import com.vaadin.testbench.By;
 import com.vaadin.testbench.elements.TreeElement;
 import org.openqa.selenium.WebElement;
+import uk.q3c.krail.core.vaadin.ID;
 import uk.q3c.krail.core.view.component.DefaultUserNavigationTree;
 import uk.q3c.krail.testbench.KrailTestBenchTestCase;
-import uk.q3c.util.ID;
 
 import java.util.*;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.*;
 
 /**
  * Created by david on 04/10/14.

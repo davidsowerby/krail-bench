@@ -16,8 +16,8 @@ package uk.q3c.krail.testbench.page.object;
 import com.vaadin.testbench.elements.AbstractComponentElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.q3c.krail.core.vaadin.ID;
 import uk.q3c.krail.testbench.KrailTestBenchTestCase;
-import uk.q3c.util.ID;
 
 import java.util.Optional;
 
