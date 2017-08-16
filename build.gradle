@@ -55,7 +55,7 @@ repositories {
 dependencies {
 
 //    //Krail
-    compile 'uk.q3c.krail:krail:0.9.10.2' // needed for ID class
+    compile 'uk.q3c.krail:krail:0.9.10.4' // needed for ID class
 
     //assert
     compile 'org.assertj:assertj-core:' + assertjVersion
