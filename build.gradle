@@ -55,7 +55,7 @@ repositories {
 dependencies {
 
 //    //Krail
-    compile 'uk.q3c.krail:krail:0.9.10.21' // needed for ID class
+    compile 'uk.q3c.krail:krail:0.9.10.24' // needed for ID class
 
     //assert
     compile 'org.assertj:assertj-core:' + assertjVersion
@@ -73,7 +73,7 @@ dependencies {
 }
 
 kaytee {
-    baseVersion = "0.9.0.0"
+    baseVersion = "0.10.0.0"
 }
 
 bintray {
