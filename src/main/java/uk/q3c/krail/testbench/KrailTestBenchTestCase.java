@@ -26,24 +26,33 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.q3c.krail.core.vaadin.ID;
 import uk.q3c.krail.testbench.page.object.LoginFormPageObject;
 import uk.q3c.krail.testbench.page.object.LoginStatusPageObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.openqa.selenium.phantomjs.PhantomJSDriverService.PHANTOMJS_PAGE_CUSTOMHEADERS_PREFIX;
+import static uk.q3c.krail.testbench.KrailTestBenchTestCase.DRIVER_TYPE.HEADLESS;
 
 public class KrailTestBenchTestCase extends TestBenchTestCase {
+    protected Locale browserLocale = Locale.UK;
     private static Logger log = LoggerFactory.getLogger(KrailTestBenchTestCase.class);
     protected final StringBuffer verificationErrors = new StringBuffer();
     protected String baseUrl = "http://localhost:8080/";
     protected LoginStatusPageObject loginStatus = new LoginStatusPageObject(this);
     protected LoginFormPageObject loginForm = new LoginFormPageObject(this);
     protected String appContext = "testapp";
-    protected Locale firefoxLocale = Locale.UK;
+    protected DRIVER_TYPE defaultDriverType = HEADLESS;
     private int currentDriverIndex = 0;
     private List<WebDriver> drivers = new ArrayList<>();
 
@@ -51,15 +60,38 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     public void baseSetup() throws Exception {
         System.out.println("setting up base test bench case");
 
-        addDriver(TestBench.createDriver(createFirefoxDriver()));
+        addDefaultDriver();
         getDriver().manage()
-                   .window()
-                   .setPosition(new Point(0, 0));
+                .window()
+                .setPosition(new Point(0, 0));
         getDriver().manage()
-                   .window()
-                   .setSize(new Dimension(1024, 768));
+                .window()
+                .setSize(new Dimension(1024, 768));
         System.out.println("default driver added");
         System.out.println("current driver index set to " + currentDriverIndex);
+    }
+
+    public DRIVER_TYPE getDefaultDriverType() {
+        return defaultDriverType;
+    }
+
+    protected WebDriver addDefaultDriver() {
+        switch (defaultDriverType) {
+            case HEADLESS:
+                return addDriver(createPhantomJSDriver());
+            case FIREFOX:
+                return addDriver(createFirefoxDriver());
+            case CHROME:
+                throw new UnsupportedOperationException("Support for Chrome not yet added");
+            default:
+                throw new UnsupportedOperationException("Unknown dirver option");
+        }
+    }
+
+    protected WebDriver createPhantomJSDriver() {
+        DesiredCapabilities caps = DesiredCapabilities.phantomjs();
+        caps.setCapability(PHANTOMJS_PAGE_CUSTOMHEADERS_PREFIX + "Accept-Language", browserLocale.toLanguageTag());
+        return new PhantomJSDriver();
     }
 
     /**
@@ -68,7 +100,7 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
      *
      * @param driver
      */
-    protected void addDriver(WebDriver driver) {
+    protected WebDriver addDriver(WebDriver driver) {
         System.out.println("adding driver " + drivers.size());
         WebDriver realDriver;
         if (!(driver instanceof TestBenchDriverProxy)) {
@@ -81,21 +113,27 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         if (drivers.size() == 1) {
             this.driver = realDriver;
         }
+        return realDriver;
     }
 
     protected WebDriver createFirefoxDriver() {
         System.out.println("Creating Firefox driver");
-        FirefoxProfile profile = createFirefoxProfile(firefoxLocale);
-        return new FirefoxDriver(profile);
+        FirefoxProfile profile = createFirefoxProfile(browserLocale);
+        return TestBench.createDriver(new FirefoxDriver(profile));
     }
 
     protected FirefoxProfile createFirefoxProfile(Locale locale) {
         FirefoxProfile profile = new FirefoxProfile();
         String s1 = locale.toLanguageTag()
-                          .toLowerCase()
-                          .replace('_', '-');
+                .toLowerCase()
+                .replace('_', '-');
         profile.setPreference("intl.accept_languages", s1);
         return profile;
+    }
+
+    protected WebDriver createChromeDriver() {
+        System.out.println("Creating Chrome driver");
+        return TestBench.createDriver(new ChromeDriver());
     }
 
     /**
@@ -112,9 +150,19 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         return drivers.get(currentDriverIndex);
     }
 
-    protected WebDriver createChromeDriver() {
-        System.out.println("Creating Chrome driver");
-        return new ChromeDriver();
+    @SuppressFBWarnings("PCAIL_POSSIBLE_CONSTANT_ALLOCATION_IN_LOOP")
+    public boolean waitForUrl(String fragment) {
+        int timeout = 5000;
+        long startTime = new Date().getTime();
+        long elapsedTime = 0;
+        String expected = rootUrl() + '#' + fragment;
+        String actual = getDriver().getCurrentUrl();
+        while (!actual.equals(expected) && (elapsedTime < timeout)) {
+            actual = getDriver().getCurrentUrl();
+            elapsedTime = new Date().getTime() - startTime;
+            System.out.println("waiting for url: " + fragment + ' ' + elapsedTime + "ms");
+        }
+        return elapsedTime < timeout;
     }
 
     /**
@@ -151,43 +199,53 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         return result.replace("https:", "https://");
     }
 
-    @SuppressFBWarnings("PCAIL_POSSIBLE_CONSTANT_ALLOCATION_IN_LOOP")
-    public boolean waitForUrl(String fragment){
-        int timeout = 5000;
-        long startTime = new Date().getTime();
-        long elapsedTime = 0;
-        String expected = rootUrl() + '#' + fragment;
-        String actual = getDriver().getCurrentUrl();
-        while (!actual.equals(expected) && (elapsedTime < timeout)) {
-            actual = getDriver().getCurrentUrl();
-            elapsedTime = new Date().getTime() - startTime;
-            System.out.println("waiting for url: " + fragment + ' ' + elapsedTime + "ms");
-        }
-        return elapsedTime < timeout;
-    }
-
+    /**
+     * Browsers need to close the drivers here, but PhantomJS complains about that
+     */
     @After
     public void baseTearDown() {
-        System.out.println("closing all drivers");
-        for (WebDriver webDriver : drivers) {
-            System.out.println("closing web driver: " + webDriver.getTitle());
-            webDriver.close();
 
+        System.out.println("closing all drivers, excluding HEADLESS");
+        for (WebDriver webDriver : drivers) {
+            if (!(webDriver instanceof PhantomJSDriver)) {
+                System.out.println("closing web driver: " + webDriver.getTitle());
+                webDriver.close();
+            }
         }
         //        if (!drivers.contains(driver)) {
         //            driver.close();//in case it was set directly and not through addDriver
         //        }
 
+        System.out.println("clearing drivers list");
         drivers.clear();
         pause(1000);
     }
 
+    /**
+     * Pause is ignored when running HEADLESS
+     *
+     * @param milliseconds
+     */
     public void pause(int milliseconds) {
-        try {
-            Thread.sleep(milliseconds);
-        } catch (Exception e) {
-            log.error("Sleep was interrupted");
+        if (defaultDriverType != DRIVER_TYPE.HEADLESS) {
+
+            try {
+                Thread.sleep(milliseconds);
+            } catch (Exception e) {
+                log.error("Sleep was interrupted");
+            }
         }
+    }
+
+    /**
+     * Navigates the current driver to {@code fragment}
+     *
+     * @param fragment
+     */
+    protected void navigateTo(String fragment) {
+        String url = url(fragment);
+        getDriver().get(url);
+        waitForUrl(fragment);
     }
 
     public String getAppContext() {
@@ -206,14 +264,10 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         assertThat(actual).isNotEqualTo(expected);
     }
 
-    /**
-     * Navigates the current driver to {@code fragment}
-     * @param fragment
-     */
-    protected void navigateTo(String fragment) {
-        String url = url(fragment);
-        getDriver().get(url);
-        waitForUrl(fragment);
+    protected void navigateForward() {
+        getDriver().navigate()
+                .forward();
+        pause(500);
     }
 
     protected void navigateWithRedirectExpected(String requestedUrl, String expectedUrl) {
@@ -242,16 +296,20 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
         this.baseUrl = baseUrl;
     }
 
-    protected void navigateForward() {
+    protected void navigateBack() {
         getDriver().navigate()
-              .forward();
+                .back();
         pause(500);
     }
 
-    protected void navigateBack() {
-        getDriver().navigate()
-              .back();
-        pause(500);
+    /**
+     * shorthand method to click the login button, and fill in the login form using credentials in {@link #loginForm}
+     */
+    protected void login() {
+        loginStatus.loginButton()
+                .click();
+        System.out.println("login status button clicked");
+        loginForm.login();
     }
 
     protected void closeNotification() {
@@ -263,23 +321,17 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
     }
 
     /**
-     * shorthand method to click the login button, and fill in the login form using credentials in {@link #loginForm}
-     */
-    protected void login() {
-        loginStatus.loginButton()
-                   .click();
-        System.out.println("login status button clicked");
-        loginForm.login();
-    }
-
-    /**
      * shorthand method to click the login button, and fill in the login form using credentials in {@link #loginForm} and using enter key to submit
      */
     protected void loginWithEnterKey() {
         loginStatus.loginButton()
-                   .click();
+                .click();
         System.out.println("login status button clicked");
         loginForm.loginWithEnterKey();
+    }
+
+    public enum DRIVER_TYPE {
+        HEADLESS, FIREFOX, CHROME
     }
 
     protected <E extends AbstractElement> E element(Class<E> elementClass, Optional<?> qualifier, Class<?>... componentClasses) {
@@ -295,7 +347,6 @@ public class KrailTestBenchTestCase extends TestBenchTestCase {
      * Indexed from 0 (that is, the default driver is at index 0)
      *
      * @param index
-     *
      * @return
      */
     @SuppressFBWarnings("EXS_EXCEPTION_SOFTENING_NO_CONSTRAINTS")

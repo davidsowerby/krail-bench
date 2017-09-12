@@ -11,15 +11,13 @@
  *
  */
 buildscript {
-    ext.kotlin_version = '1.1.4-2'
-    ext.kaytee_plugin_version = "0.18.2.0"
+    ext.kaytee_plugin_version = "0.18.8.0"
     repositories {
         jcenter()
         mavenLocal()
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "uk.q3c.kaytee:kaytee-plugin:$kaytee_plugin_version"
     }
 }
@@ -39,7 +37,6 @@ ext.gsonVersion = '2.3.1'
 ext.versionDescription = 'No version description provided'
 
 apply plugin: 'uk.q3c.kaytee'
-apply plugin: "kotlin"
 
 sourceCompatibility = '1.8'
 
@@ -49,6 +46,14 @@ repositories {
     mavenCentral()
     maven {
         url 'http://maven.vaadin.com/vaadin-addons'
+    }
+}
+
+// guava 23.0 causes an error
+// java.lang.IllegalAccessError: tried to access method com.google.common.util.concurrent.SimpleTimeLimiter
+configurations.all {
+    resolutionStrategy {
+        force 'com.google.guava:guava:22.0'
     }
 }
 
@@ -74,7 +79,7 @@ dependencies {
 
 kaytee {
     version {
-        number = "0.10.1.0"
+        number = "0.11.0.0"
     }
 
 }

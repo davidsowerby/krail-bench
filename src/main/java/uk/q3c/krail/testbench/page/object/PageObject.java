@@ -43,6 +43,11 @@ public class PageObject {
         this.parentCase = parentCase;
     }
 
+    /**
+     * Pause for a "real" browser to catch up
+     *
+     * @param milliseconds
+     */
     public void pause(int milliseconds) {
         try {
             Thread.sleep(milliseconds);

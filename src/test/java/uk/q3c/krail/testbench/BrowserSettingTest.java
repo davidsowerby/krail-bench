@@ -16,7 +16,6 @@ package uk.q3c.krail.testbench;
 import com.vaadin.testbench.Parameters;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 import uk.q3c.krail.util.DefaultResourceUtils;
 import uk.q3c.krail.util.ResourceUtils;
 
@@ -47,10 +46,9 @@ public class BrowserSettingTest extends KrailTestBenchTestCase {
 
     @Test
     public void trial() throws Exception {
-        firefoxLocale = Locale.GERMANY;
-        WebDriver newDriver = createFirefoxDriver();
-        addDriver(newDriver);
-        newDriver.get("https://www.google.co.uk/");
+        browserLocale = Locale.GERMANY;
+        addDefaultDriver();
+        getDriver().get("https://www.google.co.uk/");
     }
 
     //    @Test
