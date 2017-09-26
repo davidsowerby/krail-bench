@@ -29,10 +29,7 @@ group = 'uk.q3c.krail'
 //version = versionFromFile(project.projectDir)
 description = 'Some common Vaadin Testbench classes for use with Krail'
 
-ext.assertjVersion = '3.8.0'
-//ext.slf4jVersion = '1.7.6'
-ext.vaadinTestbenchVersion = '4.2.0'
-ext.gsonVersion = '2.3.1'
+
 
 ext.versionDescription = 'No version description provided'
 
@@ -57,29 +54,31 @@ configurations.all {
     }
 }
 
+ext.assertjVersion = '3.8.0'
+ext.vaadinTestbenchVersion = '5.0.0'
+ext.vaadinVersion='8.1.3'
+ext.gsonVersion = '2.3.1'
+
 dependencies {
 
 //    //Krail
-    compile 'uk.q3c.krail:krail:0.12.0.0' // needed for ID class
+    compile 'uk.q3c.krail:krail:0.13.0.0-v7compat+1' // needed for ID class
 
     //assert
     compile 'org.assertj:assertj-core:' + assertjVersion
 
-    //logging
-//    compile 'org.slf4j:slf4j-api:' + slf4jVersion
-//    compile 'ch.qos.logback:logback-classic:1.1.2'
-//    compile 'ch.qos.logback:logback-core:1.1.2'
-
     //Testbench
-    compile 'com.vaadin:vaadin-testbench:' + vaadinTestbenchVersion
-    //this seems to have been introduced by testbench 4.0.2
-    compile 'com.google.code.gson:gson:' + gsonVersion
+    compile "com.vaadin:vaadin-testbench:$vaadinTestbenchVersion"
+    compile "com.vaadin:vaadin-testbench-api:$vaadinVersion"  // get an out of date API without this
+
     compile 'com.google.code.findbugs:annotations:3.0.0'
 }
 
 kaytee {
     version {
-        number = "0.12.0.0"
+        number = "0.13.0.0"
+        qualifier = "v7compat"
+        buildMetaData ="1"
     }
 
 }
