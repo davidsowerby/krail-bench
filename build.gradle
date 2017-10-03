@@ -88,6 +88,10 @@ kaytee {
         buildMetaData ="1"
     }
 
+    release{
+        mergeToMaster = false
+    }
+
 }
 
 bintray {
