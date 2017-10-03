@@ -16,14 +16,23 @@ package uk.q3c.krail.testbench.page.object;
 import com.google.common.primitives.Ints;
 import com.vaadin.testbench.By;
 import com.vaadin.testbench.elements.TreeElement;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.openqa.selenium.WebElement;
 import uk.q3c.krail.core.vaadin.ID;
 import uk.q3c.krail.core.view.component.DefaultUserNavigationTree;
 import uk.q3c.krail.testbench.KrailTestBenchTestCase;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.Queue;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by david on 04/10/14.
@@ -113,7 +122,8 @@ public class NavTreePageObject extends PageObject {
     }
 
     private TreeElement navTree() {
-        return element(TreeElement.class, Optional.empty(), DefaultUserNavigationTree.class);
+        TreeElement element = element(TreeElement.class, Optional.empty(), DefaultUserNavigationTree.class);
+        return element;
     }
 
     private TreeNodeInfo getChildElement(WebElement parentElement, String segment) {
@@ -151,7 +161,19 @@ public class NavTreePageObject extends PageObject {
     }
 
     public String currentSelection() {
-        return navTree().getValue();
+        TreeElement tree = navTree();
+        String html = tree.getHTML();
+        Document doc = Jsoup.parse(html);
+        Elements treeNodes = doc.getElementsByClass("v-tree-node");
+        for (Element node : treeNodes) {
+            if (node.getElementsByAttributeValueMatching("aria-selected", "true").size() == 1) {
+                Element span = node.getElementsByTag("span").get(0);
+                return span.text();
+            }
+        }
+        return null;
+
+
     }
 
 
