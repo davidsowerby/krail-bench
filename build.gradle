@@ -82,6 +82,10 @@ kaytee {
         number = "0.12.0.0"
     }
 
+    release{
+        mergeToMaster = false
+    }
+
 }
 
 bintray {
